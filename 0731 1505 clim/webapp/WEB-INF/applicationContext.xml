@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd">
+<!-- Spring 자체 설정  -->
+
+<!-- WAS가 설정한 커넥션풀(Datasource 객체를 JNDI lookUp ) -->
+<jee:jndi-lookup jndi-name="java:comp/env/jdbc/oracle" id="dataSource"></jee:jndi-lookup>
+
+
+<!--  SqlSessionFactory 설정 
+bean p:datasource = <jee>의 id와 같아야 한다.
+tranjection도 이곳에 p:으로  설정한다-->
+			
+
+	<!--  SqlSessionTemplate 설정(sqlsession) -->
+	<bean id="sqlSessionFactory" p:dataSource-ref="dataSource"
+		p:configLocation="/WEB-INF/mybatis-config.xml"
+		class="org.mybatis.spring.SqlSessionFactoryBean" />
+
+	<bean id="sqlSession" c:sqlSessionFactory-ref="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionTemplate" />	
+	
+	
+	<!-- DAO 설정 -->
+	<bean id="actorMoviesDAO" 
+	p:session-ref="sqlSession"
+	class="com.playus.clim.dao.ActorMoviesDAOImpl"/>
+	<bean id="actorsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.ActorsDAOImpl"/>
+	<bean id="boardsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.BoardsDAOImpl"/>
+	<bean id="boardTagsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.BoardTagsDAOImpl"/>
+	<bean id="bookmarksDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.BookmarksDAOImpl"/>
+	<bean id="climingListsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.ClimingListsDAOImpl"/>
+	<bean id="climingLogsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.ClimingLogsDAOImpl"/>
+	<bean id="climingMovieListsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.ClimingMovieListsDAOImpl"/>
+	<bean id="commentsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.CommentsDAOImpl"/>
+	<bean id="continueMoviesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.ContinueMoviesDAOImpl"/>
+	<bean id="countriesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.CountriesDAOImpl"/>
+	<bean id="directorMoviesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.DirectorMoviesDAOImpl"/>
+	<bean id="directorsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.DirectorsDAOImpl"/>
+	<bean id="eventsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.EventsDAOImpl"/>
+	<bean id="genreMoviesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.GenreMoviesDAOImpl"/>
+	<bean id="genresDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.GenresDAOImpl"/>
+	<bean id="likesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.LikesDAOImpl"/>
+	<bean id="membersDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.MembersDAOImpl"/>
+	<bean id="movieCountriesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.MovieCountriesDAOImpl"/>
+	<bean id="moviesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.MoviesDAOImpl"/>
+	<bean id="paymentsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.PaymentsDAOImpl"/>
+	<bean id="reportsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.ReportsDAOImpl"/>
+	<bean id="reviewsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.ReviewsDAOImpl"/>
+	<bean id="steelCutsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.SteelCutsDAOImpl"/>
+	<bean id="subscribesDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.SubscribesDAOImpl"/>
+	<bean id="surveysDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.SurveysDAOImpl"/>
+	<bean id="tagsDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.TagsDAOImpl"/>
+	<bean id="trailersDAO" p:session-ref="sqlSession" class="com.playus.clim.dao.TrailersDAOImpl"/>
+	
+	
+	<!-- Service 설정 1:1매칭이 아니므로 여러가지를 주입받을 수 있음에 주의!!! -->
+	
+	
+	<!-- ㄴ Util객체 주입 -->
+	<bean id="paginateUtil" class="com.playus.clim.util.PaginateUtil"/>
+	
+	<!-- Util 객체 선언-->
+
+</beans>
